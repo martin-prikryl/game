@@ -64,15 +64,21 @@ class Game {
             <img src="https://www.itnetwork.cz/images/47219/dolu.png" id="down">
             <img src="https://www.itnetwork.cz/images/47219/doprava.png" id="right">
             </div>`
-        const odemknout = () => {
-            const napis = document.createElement('h2');
-            napis.innerText = "Podařilo se Ti odemknout hrad! KONEC HRY";
-            document.getElementById('main').appendChild(napis);
+
+        let unlocked = false;
+        const unlock = () => {
+            if (!unlocked) {
+                const napis = document.createElement('h2');
+                napis.innerText = "Podařilo se Ti odemknout hrad! KONEC HRY";
+                document.getElementById('main').appendChild(napis);
+                unlocked = true;
+            }
         };
+
         if (this.key) {
             const key_element = document.createElement('img');
             key_element.src = 'https://www.itnetwork.cz/images/47219/klic.svg';
-            if (this.location.castle) key_element.onclick = odemknout;
+            if (this.location.castle) key_element.onclick = unlock;
             document.getElementById('main').appendChild(key_element);
         }
         if (this.location.key) {
@@ -99,7 +105,7 @@ class Game {
         if (this.location.up) up.onclick = () => this.up(); else up.style.opacity = 0.2;
         if (this.location.down) down.onclick = () => this.down(); else down.style.opacity = 0.2;
         if (this.location.castle) {
-            if (this.key) image.onclick = odemknout;
+            if (this.key) image.onclick = unlock;
             else image.onclick = () => alert("Brána hradu je zamčená. Potřebuješ klíč.");
         };
     }
